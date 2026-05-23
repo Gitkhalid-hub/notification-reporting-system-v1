@@ -1,0 +1,109 @@
+PROJECT: Notification & Reporting System V1
+
+V1 GOAL:
+Load analytics summary data, transform it into a readable report, save the report, display a notification message, and print workflow feedback.
+
+report_builder.py
+
+CLASS ReportBuilder:
+
+    METHOD build_report(analytics_data):
+
+        IF analytics_data is empty:
+            raise validation error
+
+        GET total_events from analytics_data
+        GET successful_events from analytics_data
+        GET failed_events from analytics_data
+        GET most_used_tool from analytics_data
+
+        CREATE readable report text:
+            title
+            total events
+            successful events
+            failed events
+            most used tool
+
+        RETURN report text
+
+notifier.py
+
+CLASS Notifier:
+
+    METHOD notify(message):
+
+        IF message is empty:
+            raise validation error
+
+        PRINT notification message
+
+        RETURN message
+
+report_storage.py
+
+CLASS ReportStorage:
+
+    METHOD save_report(report_path, report_text):
+
+        CREATE parent folder if it does not exist
+
+        WRITE report_text into report_path
+
+        RETURN report_path
+
+
+    METHOD load_report(report_path):
+
+        IF report file does not exist:
+            raise file error
+
+        READ report text
+
+        RETURN report text
+
+main.py
+
+SET analytics_path = sample_data/analytics_summary.json
+SET report_path = reports/usage_report.txt
+
+CREATE report_builder
+CREATE notifier
+CREATE report_storage
+
+TRY:
+    LOAD analytics data from analytics_path
+
+    report_text = report_builder.build_report(analytics_data)
+
+    saved_path = report_storage.save_report(report_path, report_text)
+
+    notifier.notify("Report generated successfully")
+
+    PRINT final summary:
+        report saved location
+        notification status
+        completion message
+
+EXCEPT error:
+    PRINT failure message
+    PRINT error
+
+
+Responsibility separation:
+
+report_builder.py → transforms analytics data into readable report
+notifier.py → displays notification messages
+report_storage.py → saves/loads reports
+main.py → orchestrates the workflow
+
+
+For analytics_summary.json, start with:
+
+{
+  "total_events": 10,
+  "successful_events": 8,
+  "failed_events": 2,
+  "most_used_tool": "email_automation_engine"
+}
+
+analytics_path → load JSON → analytics_data → build report_text → save report → notify

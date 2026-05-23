@@ -1,0 +1,6 @@
+{
+  "total_events": 10,
+  "successful_events": 8,
+  "failed_events": 2,
+  "most_used_tool": "usage_analytics_tracker_v1"
+}
