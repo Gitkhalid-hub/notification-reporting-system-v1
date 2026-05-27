@@ -1,6 +1,6 @@
 # NOTIFICATION & REPORTING SYSTEM V1
 
-A Python-based reporting system that loads analytics summary data, transforms it into a human-readable report, saves the report, and displays notification feedback.
+A Python-based reporting system that loads analytics summary data, transforms it into a human-readable report, saves the report, and generates operational notification feedback.
 
 ---
 
@@ -8,9 +8,10 @@ A Python-based reporting system that loads analytics summary data, transforms it
 
 - Loads analytics summary data from JSON
 - Builds readable report text
-- Saves reports into a report file
+- Saves reports into persistent report files
 - Displays notification messages
-- Prints final workflow summary
+- Generates final workflow summaries
+- Includes controlled validation and failure handling
 - Uses modular responsibility separation
 - Demonstrates reporting and notification pipeline design
 
@@ -35,9 +36,10 @@ NOTIFICATION_REPORTING_SYSTEM_V1/
 │
 ├── main.py
 ├── README.md
+├── pseudocode.txt
+├── breakdown_engine.md
 ├── requirements.txt
-├── .gitignore
-└── pseudocode.txt
+└── .gitignore
 ```
 
 ---
@@ -99,68 +101,25 @@ Notifier
 ↓
 display notification
 ↓
-final summary
+workflow summary generation
 ```
 
 ---
 
-# Responsibility Separation
+# 🧠 Architecture
 
-## ReportBuilder
+The system is built with layered reporting design and clear responsibility separation.
 
-Responsible for:
+### Architecture Layers
 
-- validating analytics data
-- extracting summary values
-- transforming analytics data into readable report text
-
-Does NOT know:
-
-- where reports are saved
-- how notifications are displayed
-- how the workflow is orchestrated
-
----
-
-## ReportStorage
-
-Responsible for:
-
-- creating report folders if needed
-- saving report text
-- loading saved reports
-
-Does NOT know:
-
-- how reports are formatted
-- notification logic
-- analytics interpretation
-
----
-
-## Notifier
-
-Responsible for:
-
-- validating notification messages
-- displaying notification feedback
-
-Does NOT know:
-
-- report formatting
-- report storage
-- analytics data structure
-
----
-
-## main.py
-
-Responsible for:
-
-- loading analytics JSON data
-- connecting all components
-- handling success/failure feedback
-- printing final workflow summary
+| Layer | Responsibility |
+|---|---|
+| `report_builder.py` | Transforms analytics data into human-readable reports |
+| `report_storage.py` | Saves and loads persistent report files |
+| `notifier.py` | Displays operational notification feedback |
+| `main.py` | Orchestrates workflow execution and summary state |
+| `pseudocode.txt` | Planning and workflow reasoning |
+| `breakdown_engine.md` | Deep engineering analysis, debugging cognition, edge cases, and system reasoning |
 
 ---
 
@@ -196,8 +155,10 @@ Most Used Tool: email_automation_engine
 Report generated successfully
 
 === FINAL SUMMARY ===
+
 Report saved to: reports/usage_report.txt
 Notification status: SENT
+
 SYSTEM COMPLETED!
 ```
 
@@ -209,7 +170,8 @@ SYSTEM COMPLETED!
 - JSON
 - pathlib
 - Object-Oriented Programming (OOP)
-- File handling
+- File Handling
+- Reporting / Observability Concepts
 
 ---
 
@@ -225,6 +187,40 @@ This project was built to practice:
 - responsibility separation
 - workflow orchestration
 - feedback system design
+
+---
+
+# Breakdown Engine
+
+The project includes a dedicated engineering investigation document:
+
+[breakdown_engine.md](breakdown_engine.md)
+
+This file dissects the system using a technical detective approach.
+
+It analyzes:
+
+- surface behavior
+- line-by-line execution
+- variable purpose
+- system flow
+- edge cases
+- structural patterns
+- reporting logic
+- notification behavior
+- persistent storage design
+- workflow observability
+- complexity analysis
+- Cognition and Intelligence Engineering
+- Ethics and Safety Considerations
+
+This improves:
+
+- debugging cognition
+- architectural understanding
+- reasoning transparency
+- workflow observability
+- system extensibility
 
 ---
 
