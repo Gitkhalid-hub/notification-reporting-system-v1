@@ -107,3 +107,114 @@ For analytics_summary.json, start with:
 }
 
 analytics_path → load JSON → analytics_data → build report_text → save report → notify
+
+                   PROJECT: Notification & Reporting System V1.1
+
+
+V1.1 GOAL:
+Add persistent notification history so every notification event can be reviewed after execution.
+
+
+notification_history.py
+
+CLASS NotificationHistory:
+
+    METHOD load_history(history_path):
+
+        IF history file does not exist:
+            RETURN empty list
+
+        IF history file exists but is empty:
+            RETURN empty list
+
+        READ JSON history file
+
+        RETURN notification history
+
+
+    METHOD create_record(message, status):
+
+        IF message is empty:
+            raise validation error
+
+        IF status is not success or failure:
+            raise validation error
+
+        CREATE notification record:
+            message
+            status
+            timestamp
+
+        RETURN notification record
+
+
+    METHOD save_record(history_path, record):
+
+        CREATE parent folder if it does not exist
+
+        history = load_history(history_path)
+
+        ADD record to history
+
+        WRITE history back to JSON file
+
+        RETURN history
+
+
+main.py upgrade
+
+SET analytics_path = sample_data/analytics_summary.json
+SET report_path = reports/usage_report.txt
+SET notification_history_path = logs/notification_history.json
+
+CREATE report_builder
+CREATE report_storage
+CREATE notifier
+CREATE notification_history
+
+TRY:
+    LOAD analytics data from analytics_path
+
+    report_text = report_builder.build_report(analytics_data)
+
+    saved_path = report_storage.save_report(report_path, report_text)
+
+    notification_message = "Report generated successfully"
+
+    notifier.notify(notification_message)
+
+    notification_record = notification_history.create_record(
+        notification_message,
+        "success"
+    )
+
+    notification_history.save_record(
+        notification_history_path,
+        notification_record
+    )
+
+    PRINT final summary:
+        report saved location
+        notification status
+        notification history location
+        completion message
+
+EXCEPT error:
+    failure_message = "Report generation failed"
+
+    TRY:
+        notification_record = notification_history.create_record(
+            failure_message,
+            "failure"
+        )
+
+        notification_history.save_record(
+            notification_history_path,
+            notification_record
+        )
+
+    EXCEPT logging_error:
+        PRINT logging failure message
+
+    PRINT system failure message
+    PRINT error

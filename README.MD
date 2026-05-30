@@ -1,6 +1,6 @@
-# NOTIFICATION & REPORTING SYSTEM V1
+# NOTIFICATION & REPORTING SYSTEM V1.1
 
-A Python-based reporting system that loads analytics summary data, transforms it into a human-readable report, saves the report, and generates operational notification feedback.
+A Python-based reporting system that loads analytics summary data, transforms it into a human-readable report, saves the report, generates operational notification feedback, and persistently records notification history.
 
 ---
 
@@ -10,6 +10,8 @@ A Python-based reporting system that loads analytics summary data, transforms it
 - Builds readable report text
 - Saves reports into persistent report files
 - Displays notification messages
+- Records notification history
+- Stores notification events persistently
 - Generates final workflow summaries
 - Includes controlled validation and failure handling
 - Uses modular responsibility separation
@@ -26,13 +28,17 @@ NOTIFICATION_REPORTING_SYSTEM_V1/
 │   ├── __init__.py
 │   ├── report_builder.py
 │   ├── notifier.py
-│   └── report_storage.py
+│   ├── report_storage.py
+│   └── notification_history.py
 │
 ├── sample_data/
-│   └── analytics_summary.json
+│   └── analytic_summary.json
 │
 ├── reports/
 │   └── usage_report.txt
+│
+├── logs/
+│   └── notification_history.json
 │
 ├── main.py
 ├── README.md
@@ -59,11 +65,12 @@ Project 4 focused on:
 - calculating analytics summaries
 - identifying usage patterns
 
-Notification & Reporting System V1 builds on top of that foundation by transforming analytics output into:
+Notification & Reporting System V1.1 builds on top of that foundation by transforming analytics output into:
 
 - human-readable reports
 - saved report files
 - notification feedback
+- notification history
 - operational communication
 
 Together, both systems form an early observability and operational intelligence pipeline.
@@ -75,17 +82,23 @@ produces analytics summary data
 
 Notification & Reporting System
 ↓
-consumes analytics summary data and generates reports
+consumes analytics summary data
+↓
+creates reports
+↓
+generates notifications
+↓
+stores notification history
 ```
 
 This demonstrates a producer-consumer relationship between two separate backend systems.
 
 ---
 
-# System Flow
+# Updated System Flow
 
 ```text
-analytics_summary.json
+analytic_summary.json
 ↓
 load analytics data
 ↓
@@ -101,6 +114,10 @@ Notifier
 ↓
 display notification
 ↓
+NotificationHistory
+↓
+record notification event
+↓
 workflow summary generation
 ```
 
@@ -113,13 +130,14 @@ The system is built with layered reporting design and clear responsibility separ
 ### Architecture Layers
 
 | Layer | Responsibility |
-|---|---|
-| `report_builder.py` | Transforms analytics data into human-readable reports |
-| `report_storage.py` | Saves and loads persistent report files |
-| `notifier.py` | Displays operational notification feedback |
-| `main.py` | Orchestrates workflow execution and summary state |
-| `pseudocode.txt` | Planning and workflow reasoning |
-| `breakdown_engine.md` | Deep engineering analysis, debugging cognition, edge cases, and system reasoning |
+|---------|---------|
+| report_builder.py | Transforms analytics data into human-readable reports |
+| report_storage.py | Saves and loads persistent report files |
+| notifier.py | Displays operational notification feedback |
+| notification_history.py | Creates, stores, and loads notification history |
+| main.py | Orchestrates workflow execution and summary state |
+| pseudocode.txt | Planning and workflow reasoning |
+| breakdown_engine.md | Deep engineering analysis, debugging cognition, edge cases, and system reasoning |
 
 ---
 
@@ -149,6 +167,20 @@ Most Used Tool: email_automation_engine
 
 ---
 
+# Example Notification History
+
+```json
+[
+    {
+        "message": "Report generated successfully",
+        "status": "success",
+        "timestamp": "2026-05-29 12:15:03"
+    }
+]
+```
+
+---
+
 # Example Terminal Output
 
 ```text
@@ -158,6 +190,7 @@ Report generated successfully
 
 Report saved to: reports/usage_report.txt
 Notification status: SENT
+History Location: logs/notification_history.json
 
 SYSTEM COMPLETED!
 ```
@@ -169,9 +202,12 @@ SYSTEM COMPLETED!
 - Python
 - JSON
 - pathlib
+- datetime
 - Object-Oriented Programming (OOP)
 - File Handling
+- Persistent Storage Concepts
 - Reporting / Observability Concepts
+- Responsibility Separation Architecture
 
 ---
 
@@ -187,14 +223,18 @@ This project was built to practice:
 - responsibility separation
 - workflow orchestration
 - feedback system design
+- persistent event recording
+- observability concepts
 
 ---
 
 # Breakdown Engine
 
+# Breakdown Engine
+
 The project includes a dedicated engineering investigation document:
 
-[breakdown_engine.md](breakdown_engine.md)
+📖 [Breakdown Engine](breakdown_engine.md)
 
 This file dissects the system using a technical detective approach.
 
@@ -208,7 +248,7 @@ It analyzes:
 - structural patterns
 - reporting logic
 - notification behavior
-- persistent storage design
+- notification history persistence
 - workflow observability
 - complexity analysis
 - Cognition and Intelligence Engineering
@@ -228,6 +268,8 @@ This improves:
 
 V1 — Analytics report generation and notification feedback system
 
+V1.1 — Added persistent notification history tracking
+
 ---
 
 # Future Improvements
@@ -237,7 +279,6 @@ Potential future upgrades:
 - email notification support
 - Slack/Telegram notification support
 - report timestamps
-- notification history tracking
 - PDF report export
 - dashboard integration
 - direct integration with Usage Analytics Tracker output
